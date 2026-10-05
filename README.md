@@ -1,5 +1,5 @@
 # OpenAI API Basics
-
+   Project: https://roadmap.sh/projects/openai-api-python
 Calling LLMs directly from Python using the `openai` library: system messages, `temperature`, `max_tokens`, and a small interactive chat script.
 
 Works with OpenAI or any OpenAI-compatible provider (e.g. Groq's free tier) by changing `.env` only.
