@@ -38,12 +38,28 @@ Works with OpenAI or any OpenAI-compatible provider (e.g. Groq's free tier) by c
 
 ## Results
 
-_Paste the output of `04_temperature_compare.py` here, then add notes._
+Model: `openai/gpt-oss-20b` via Groq (OpenAI-compatible endpoint), `reasoning_effort="low"`.
+Prompt: "Write a one-line startup idea for students in India." Each temperature run 3 times.
+
+| Temperature | Unique outputs (of 3) | Observation |
+|-------------|-----------------------|-------------|
+| 0.0 | 1/3 | Identical text every run (deterministic) |
+| 0.7 | 3/3 | Different ideas each time (marketplace, micro-learning) |
+| 1.2 | 3/3 | More variety in structure and features |
+| 1.8 | 3/3 | Most varied, but still coherent |
+
+Sample at temperature 0 (all 3 runs identical):
+> A mobile-first platform that connects Indian students with local mentors and micro-learning modules...
+
+Coffee-shop name test (single run each):
+- temp 0: short, bare name
+- temp 1: name plus one-line explanation
+- temp 1.8: name plus bullet-point reasoning (longer, more elaborate)
 
 ## What I learned
 
-- Tokens are the unit models read and bill by (~4 English characters each). `response.usage` shows counts.
-- `temperature` controls randomness: 0 is near-deterministic, higher values give more varied (and eventually chaotic) output.
-- `max_tokens` caps the reply. `finish_reason == "length"` means it got cut off.
-- The system message sets the model's behavior and tone.
-- Reasoning models (o-series, gpt-5 family) don't accept `temperature` and use `max_completion_tokens` instead of `max_tokens`.
+- Temperature controls randomness: 0 gives the same answer every run, higher values give varied answers. Higher temperature also changed response style and length, not just wording.
+- Tokens are the unit of billing and limits. `response.usage` shows prompt, completion and total counts.
+- `max_tokens` caps the reply; `finish_reason == "length"` means it was cut off.
+- Reasoning models (like gpt-oss) use hidden "thinking" tokens that count toward `max_tokens`. With a small limit the visible reply came back empty. Fixed with `reasoning_effort="low"` and a higher limit.
+- Because the OpenAI SDK reads `OPENAI_BASE_URL`, the same code works with OpenAI or Groq by editing `.env` only..
