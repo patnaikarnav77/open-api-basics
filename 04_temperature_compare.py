@@ -7,6 +7,8 @@ from openai import OpenAI
 load_dotenv()
 client = OpenAI()
 MODEL = os.getenv("MODEL", "gpt-4o-mini")
+# gpt-oss models "think" before answering; keep that short so max_tokens isn't eaten
+EXTRA = {"reasoning_effort": "low"} if "gpt-oss" in MODEL else {}
 
 PROMPT = "Write a one-line startup idea for students in India."
 TEMPERATURES = [0.0, 0.7, 1.2, 1.8]
@@ -20,7 +22,8 @@ for t in TEMPERATURES:
             model=MODEL,
             messages=[{"role": "user", "content": PROMPT}],
             temperature=t,
-            max_tokens=60,
+            max_tokens=300,
+            **EXTRA,
         )
         text = r.choices[0].message.content.strip()
         outputs.append(text)
