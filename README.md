@@ -1,5 +1,7 @@
 # OpenAI API Basics
-   Project: https://roadmap.sh/projects/openai-api-python
+
+Project: https://roadmap.sh/projects/openai-api-python
+
 Calling LLMs directly from Python using the `openai` library: system messages, `temperature`, `max_tokens`, and a small interactive chat script.
 
 Works with OpenAI or any OpenAI-compatible provider (e.g. Groq's free tier) by changing `.env` only.
@@ -23,7 +25,7 @@ Works with OpenAI or any OpenAI-compatible provider (e.g. Groq's free tier) by c
    ```
    OPENAI_API_KEY=gsk_...
    OPENAI_BASE_URL=https://api.groq.com/openai/v1
-   MODEL=llama-3.3-70b-versatile
+   MODEL=openai/gpt-oss-20b
    ```
 3. Never commit `.env`. It is listed in `.gitignore`.
 
@@ -62,4 +64,4 @@ Coffee-shop name test (single run each):
 - Tokens are the unit of billing and limits. `response.usage` shows prompt, completion and total counts.
 - `max_tokens` caps the reply; `finish_reason == "length"` means it was cut off.
 - Reasoning models (like gpt-oss) use hidden "thinking" tokens that count toward `max_tokens`. With a small limit the visible reply came back empty. Fixed with `reasoning_effort="low"` and a higher limit.
-- Because the OpenAI SDK reads `OPENAI_BASE_URL`, the same code works with OpenAI or Groq by editing `.env` only..
+- Because the OpenAI SDK reads `OPENAI_BASE_URL`, the same code works with OpenAI or Groq by editing `.env` only.
